@@ -26,30 +26,35 @@ var BlogGenerator = yeoman.generators.Base.extend({
     this.log(chalk.magenta('You\'re using the fantastic Blog generator.'));
 
     var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
+      name: 'blogName',
+      message: 'What do you want to call your blog?'
     }];
 
     this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
+      this.blogName = props.blogName;
 
       done();
     }.bind(this));
   },
 
   app: function () {
-    this.mkdir('app');
-    this.mkdir('app/templates');
+    this.mkdir('posts');
+    this.template('_index.md', 'posts/index.md');
 
-    this.copy('_package.json', 'package.json');
-    this.copy('_bower.json', 'bower.json');
+    this.template('Gruntfile.js', 'Gruntfile.js');
+    this.template('index.html', 'index.html');
+
+    this.template('_bower.json', 'bower.json');
+    this.template('_config.json', 'config.json');
+    this.template('_package.json', 'package.json');
+    this.copy('wordmap.json', 'wordmap.json');
   },
 
   projectfiles: function () {
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
+    this.copy('bowerrc', '.bowerrc');
+    this.copy('gitignore', '.gitignore');
   }
 });
 
